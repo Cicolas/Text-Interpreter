@@ -18,6 +18,20 @@ impl Section {
             content: Vec::new(),
         }
     }
+
+    pub fn to_string(&self, indentation: usize) -> String {
+        let mut str = String::new();
+        let t = format!("\n{}. ", self.section_num).to_string() + &self.title.clone();
+
+        str.push_str(format!("{}\n", t.green().bold()).as_str());
+        str.push_str(format!("{}\n", "-".repeat(t.len()).bright_black()).as_str());
+
+        self.content
+            .iter()
+            .for_each(|elem| {str.push_str(elem.to_string(indentation).as_str());});
+        
+        str
+    }
 }
 
 impl ContentDependency<Content> for Section {
@@ -26,13 +40,6 @@ impl ContentDependency<Content> for Section {
 
 impl Displayable for Section {
     fn show(&self, indentation: usize) {
-        let t = format!("\n{}. ", self.section_num).to_string() + &self.title.clone();
-
-        println!("{}", t.green().bold());
-        println!("{}", "-".repeat(t.len()).bright_black());
-
-        self.content
-            .iter()
-            .for_each(|elem| {elem.show(indentation)});
+        println!("{}", self.to_string(indentation));
     }
 }

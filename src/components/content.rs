@@ -30,17 +30,18 @@ pub enum Content {
 
 impl Content {
     pub const BR: Content = Content::Text(String::new());
-}
+    
+    pub fn to_string(&self, indentation: usize) -> String {
+        let mut str = String::new();
 
-impl Displayable for Content {
-    fn show(&self, indentation: usize) {
         match self {
             Content::Text(s) => {
-                indent_stdout!(indentation);
-                println!("{}", limit_display_size(
-                    s, 
-                    super::MAX_TEXT_LEN - indentation*super::INDENTATION_SIZE
-                ));
+                str.push_str(indent_stdout!(indentation));
+                let max_length = super::MAX_TEXT_LEN - indentation*super::INDENTATION_SIZE;
+
+                s   .split("\n")
+                    .map(|s| limit_display_size(s, max_length))
+                    .for_each(|s| str.push_str((s + "\n").as_str()));
             },
             Content::List(l) => {
                 let mut counter: usize = 0;
@@ -57,19 +58,27 @@ impl Displayable for Content {
                     }
 
                     if should_prefix {
-                        indent_stdout!(indentation);
+                        str.push_str(indent_stdout!(indentation));
                         match l.list_type {
                             ListType::Ordered =>
-                                print!("{} ", format!("{}.{}", indentation+1, counter).yellow()),
+                                str.push_str((format!("{}.{} ", indentation+1, counter).yellow()).to_string().as_str()),
                             ListType::Unordered =>
-                                print!("{} ", "-".yellow())
+                                str.push_str((format!("{} ", "-").yellow()).to_string().as_str()),
                         }
                     }
 
-                    elem.show(if should_prefix { 0 } else { indentation + 1 });
+                    str.push_str(elem.to_string(if should_prefix { 0 } else { indentation + 1 }).as_str());
                 }
             }
         }
+
+        str
+    }	
+}
+
+impl Displayable for Content {
+    fn show(&self, indentation: usize) {
+        println!("{}", self.to_string(indentation));
     }
 }
 

@@ -8,7 +8,7 @@ pub mod page;
 mod macros {
     macro_rules! indent_stdout {
         ($indent:expr) => {
-            print!("{}", " ".repeat($indent*super::INDENTATION_SIZE));
+            format!("{}", " ".repeat($indent*super::INDENTATION_SIZE)).as_str()
         };
     }
     
