@@ -5,13 +5,13 @@ use super::content::*;
 #[derive(Debug)]
 pub struct Section {
     pub section_num: usize,
-    pub title: &'static str,
+    pub title: String,
     pub content: Vec<Content>
 }
 
 #[allow(unused)]
 impl Section {
-    pub fn new(section_num: usize, title: &'static str) -> Self {
+    pub fn new(section_num: usize, title: String) -> Self {
         Section {
             section_num,
             title,
@@ -26,7 +26,7 @@ impl ContentDependency<Content> for Section {
 
 impl Displayable for Section {
     fn show(&self, indentation: usize) {
-        let t = format!("{}. ", self.section_num).to_string() + &self.title.clone();
+        let t = format!("\n{}. ", self.section_num).to_string() + &self.title.clone();
 
         println!("{}", t.green().bold());
         println!("{}", "-".repeat(t.len()).bright_black());

@@ -4,12 +4,12 @@ use crate::components::content::{ContentDependency, Displayable};
 use super::section::Section;
 
 pub struct Page {
-    pub name: &'static str,
+    pub name: String,
     pub sections: Vec<Section>
 }
 
 impl Page {
-    pub fn new(name: &'static str) -> Self {
+    pub fn new(name: String) -> Self {
         Page { name, sections: Vec::new() }
     }
 }

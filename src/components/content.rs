@@ -24,12 +24,12 @@ pub trait Displayable {
 
 #[derive(Debug, Clone)]
 pub enum Content {
-    Text(&'static str),
+    Text(String),
     List(ContentList)
 }
 
 impl Content {
-    pub const BR: Content = Content::Text("");
+    pub const BR: Content = Content::Text(String::new());
 }
 
 impl Displayable for Content {
@@ -37,7 +37,10 @@ impl Displayable for Content {
         match self {
             Content::Text(s) => {
                 indent_stdout!(indentation);
-                println!("{}", limit_display_size(s, super::MAX_TEXT_LEN-indentation*super::INDENTATION_SIZE));
+                println!("{}", limit_display_size(
+                    s, 
+                    super::MAX_TEXT_LEN - indentation*super::INDENTATION_SIZE
+                ));
             },
             Content::List(l) => {
                 let mut counter: usize = 0;
