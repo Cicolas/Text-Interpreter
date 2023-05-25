@@ -3,6 +3,6 @@
         ".\\Cargo.toml"
     ],
     "rust-analyzer.cargo.extraEnv": {
-        "RUSTFLAGS": "-A unused_variables"
+        // "RUSTFLAGS": "-A unused_variables"
     }
 }

@@ -6,9 +6,11 @@ use components::content::*;
 use components::content::list::*;
 
 fn main() {
-    let page: Option<Page> = Page::from_xml("./src/resources/index.xml");
+    let file_path = std::env::args().nth(1).unwrap();
+
+    let page: Option<Page> = Page::from_xml(file_path.trim());
     
-    page.unwrap().show(0); 
+    page.unwrap().show(0);
 }
 
 #[test]

@@ -174,7 +174,7 @@ impl Page {
 
         let title_len = self.name.len() + 2;
         str.push_str(format!("{}", " ".repeat(MAX_TEXT_LEN/2-title_len/2)).as_str());
-        str.push_str((format!("# {}\n\n", self.name).bold()).to_string().as_str());
+        str.push_str((format!("# {}\n", self.name).bold()).to_string().as_str());
 
         self.sections
             .iter()
